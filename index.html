@@ -1494,7 +1494,7 @@
       <div class="careers-note-icon">✦</div>
       <div class="careers-note-text">
         <h4>Don't see your role?</h4>
-        <p>We're always open to exceptional talent. Send your profile and what excites you about agentic AI to <a href="mailto:office@orchestralai.org">office@orchestralai.org</a> — we'd love to hear from you.</p>
+        <p>We're always open to exceptional talent. Send your profile and what excites you about agentic AI to <a href="/cdn-cgi/l/email-protection#751a13131c1610351a07161d100601071419141c5b1a0712"><span class="__cf_email__" data-cfemail="3f505959565c5a7f504d5c575a4c4b4d5e535e5611504d58">[email&#160;protected]</span></a> — we'd love to hear from you.</p>
       </div>
     </div>
   </div>
@@ -1510,7 +1510,7 @@
     </div>
     <div class="modal-body">
       <div id="appFormWrap">
-        <p class="form-note">All fields are required. Your application will be sent directly to our team at office@orchestralai.org.</p>
+        <p class="form-note">All fields are required. Your application will be sent directly to our team at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="563930303f3533163924353e33252224373a373f78392431">[email&#160;protected]</a>.</p>
         <div class="app-form" id="appForm">
           <input type="hidden" id="appRole" value="" />
           <div class="form-row">
@@ -1579,7 +1579,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring   = document.getElementById('cursorRing');
@@ -1737,25 +1737,35 @@
     }
 
     try {
-      // Replace YOUR_FORM_ID below with your Formspree form endpoint
-      // Sign up free at https://formspree.io → create form → copy the form ID
-      const res = await fetch('https://formspree.io/f/mnjopdlz', {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
+      // ── Web3Forms (free, supports file attachments) ──────────────
+      // 1. Go to https://web3forms.com
+      // 2. Enter office@orchestralai.org → click "Create Access Key"
+      // 3. Paste the key below, replacing YOUR_ACCESS_KEY
+      const WEB3FORMS_KEY = 'Ydf974318-f5b1-47f8-8a47-7922362b892d';
 
-      if (res.ok) {
+      formData.append('access_key',  WEB3FORMS_KEY);
+      formData.append('subject',     'Job Application: ' + role);
+      formData.append('from_name',   firstName + ' ' + lastName);
+      formData.append('replyto',     email);
+      // Tell Web3Forms to redirect back to same page (no redirect)
+      formData.append('redirect',    'false');
+
+      const res  = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body:   formData
+      });
+      const data = await res.json();
+
+      if (data.success) {
         document.getElementById('appFormWrap').style.display = 'none';
-        document.getElementById('appSuccess').style.display = 'block';
+        document.getElementById('appSuccess').style.display  = 'block';
       } else {
-        const data = await res.json();
-        throw new Error(data.error || 'Submission failed');
+        throw new Error(data.message || 'Submission failed');
       }
     } catch (err) {
       btn.textContent = 'Submit Application →';
-      btn.disabled = false;
-      alert('There was an error submitting your application. Please try again or email us directly at office@orchestralai.org');
+      btn.disabled    = false;
+      alert('There was an error submitting your application.\nPlease email us directly at office@orchestralai.org');
       console.error(err);
     }
   }
