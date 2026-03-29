@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Orchestral AI — Agentic Intelligence, Composed for Business</title>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -1713,6 +1712,7 @@
     const phone     = document.getElementById('appPhone').value.trim();
     const linkedin  = document.getElementById('appLinkedIn').value.trim();
     const cover     = document.getElementById('appCover').value.trim();
+    const fileInput = document.getElementById('appResume');
 
     if (!firstName || !lastName || !email || !cover) {
       alert('Please fill in all required fields.');
@@ -1724,47 +1724,44 @@
     btn.disabled = true;
 
     try {
-      // ── EmailJS — Service: service_f17tyt9 | Template: template_didft88 ──
-      // One remaining step: paste your EmailJS Public Key below.
-      // Find it at: emailjs.com → Account → General → Public Key
-      const EMAILJS_PUBLIC_KEY  = '_zDAIiRJjbIWFDYpB';
-      const EMAILJS_SERVICE_ID  = 'service_f17tyt9';
-      const EMAILJS_TEMPLATE_ID = 'template_didft88';
+      // ── Formsubmit.co — free, no account, works on Vercel, real file attachments ──
+      // First submission will send a one-time activation email to office@orchestralai.org
+      // Just click "Confirm your email" in that email — then it works forever.
+      const formData = new FormData();
 
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      // Formsubmit config fields
+      formData.append('_subject',  'Job Application: ' + role + ' — ' + firstName + ' ' + lastName);
+      formData.append('_template', 'table');      // clean table layout in email
+      formData.append('_captcha',  'false');      // disable captcha redirect
+      formData.append('_replyto',  email);        // reply goes to applicant
 
-      // Build the message body to match template {{message}} variable
-      const messageBody =
-        'Role Applied For: ' + role + '\n\n' +
-        'Phone: '     + (phone    || 'Not provided') + '\n' +
-        'LinkedIn: '  + (linkedin || 'Not provided') + '\n\n' +
-        'Cover Letter:\n' + cover;
+      // Application fields
+      formData.append('Role',         role);
+      formData.append('Name',         firstName + ' ' + lastName);
+      formData.append('Email',        email);
+      formData.append('Phone',        phone    || 'Not provided');
+      formData.append('LinkedIn',     linkedin || 'Not provided');
+      formData.append('Cover Letter', cover);
 
-      // Map to the exact template variables: {{title}}, {{name}}, {{email}}, {{message}}
-      const templateParams = {
-        title:   'Job Application — ' + role,  // → Subject: "Contact Us: {{title}}"
-        name:    firstName + ' ' + lastName,    // → From Name & body sender
-        email:   email,                         // → Reply-To
-        message: messageBody                    // → Body content
-      };
-
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-
-      // If a resume was attached, send a follow-up note about it
-      if (selectedFile) {
-        const resumeParams = {
-          title:   'Resume Attached — ' + role + ' (' + firstName + ' ' + lastName + ')',
-          name:    firstName + ' ' + lastName,
-          email:   email,
-          message: 'Applicant ' + firstName + ' ' + lastName + ' attached a resume: "' +
-                   selectedFile.name + '" (' + (selectedFile.size / 1024).toFixed(1) + ' KB).\n\n' +
-                   'Please request the file directly from: ' + email
-        };
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, resumeParams);
+      // Attach resume file if provided
+      if (fileInput.files[0]) {
+        formData.append('resume', fileInput.files[0], fileInput.files[0].name);
       }
 
-      document.getElementById('appFormWrap').style.display = 'none';
-      document.getElementById('appSuccess').style.display  = 'block';
+      const res = await fetch('https://formsubmit.co/ajax/office@orchestralai.org', {
+        method: 'POST',
+        body:   formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      const data = await res.json();
+
+      if (data.success === 'true' || data.success === true) {
+        document.getElementById('appFormWrap').style.display = 'none';
+        document.getElementById('appSuccess').style.display  = 'block';
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
 
     } catch (err) {
       btn.textContent = 'Submit Application →';
