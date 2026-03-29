@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Orchestral AI — Agentic Intelligence, Composed for Business</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -1722,46 +1723,49 @@
     btn.textContent = 'Sending...';
     btn.disabled = true;
 
-    // Build FormData for Formspree (supports file attachments)
-    const formData = new FormData();
-    formData.append('_subject',   'Job Application: ' + role);
-    formData.append('_replyto',   email);
-    formData.append('Role',       role);
-    formData.append('Name',       firstName + ' ' + lastName);
-    formData.append('Email',      email);
-    formData.append('Phone',      phone || 'Not provided');
-    formData.append('LinkedIn',   linkedin || 'Not provided');
-    formData.append('Cover Letter', cover);
-    if (selectedFile) {
-      formData.append('resume', selectedFile, selectedFile.name);
-    }
-
     try {
-      // ── Web3Forms (free, supports file attachments) ──────────────
-      // 1. Go to https://web3forms.com
-      // 2. Enter office@orchestralai.org → click "Create Access Key"
-      // 3. Paste the key below, replacing YOUR_ACCESS_KEY
-      const WEB3FORMS_KEY = 'df974318-f5b1-47f8-8a47-7922362b892d';
+      // ── EmailJS — Service: service_f17tyt9 | Template: template_didft88 ──
+      // One remaining step: paste your EmailJS Public Key below.
+      // Find it at: emailjs.com → Account → General → Public Key
+      const EMAILJS_PUBLIC_KEY  = '_zDAIiRJjbIWFDYpB';
+      const EMAILJS_SERVICE_ID  = 'service_f17tyt9';
+      const EMAILJS_TEMPLATE_ID = 'template_didft88';
 
-      formData.append('access_key',  WEB3FORMS_KEY);
-      formData.append('subject',     'Job Application: ' + role);
-      formData.append('from_name',   firstName + ' ' + lastName);
-      formData.append('replyto',     email);
-      // Tell Web3Forms to redirect back to same page (no redirect)
-      formData.append('redirect',    'false');
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
-      const res  = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body:   formData
-      });
-      const data = await res.json();
+      // Build the message body to match template {{message}} variable
+      const messageBody =
+        'Role Applied For: ' + role + '\n\n' +
+        'Phone: '     + (phone    || 'Not provided') + '\n' +
+        'LinkedIn: '  + (linkedin || 'Not provided') + '\n\n' +
+        'Cover Letter:\n' + cover;
 
-      if (data.success) {
-        document.getElementById('appFormWrap').style.display = 'none';
-        document.getElementById('appSuccess').style.display  = 'block';
-      } else {
-        throw new Error(data.message || 'Submission failed');
+      // Map to the exact template variables: {{title}}, {{name}}, {{email}}, {{message}}
+      const templateParams = {
+        title:   'Job Application — ' + role,  // → Subject: "Contact Us: {{title}}"
+        name:    firstName + ' ' + lastName,    // → From Name & body sender
+        email:   email,                         // → Reply-To
+        message: messageBody                    // → Body content
+      };
+
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+
+      // If a resume was attached, send a follow-up note about it
+      if (selectedFile) {
+        const resumeParams = {
+          title:   'Resume Attached — ' + role + ' (' + firstName + ' ' + lastName + ')',
+          name:    firstName + ' ' + lastName,
+          email:   email,
+          message: 'Applicant ' + firstName + ' ' + lastName + ' attached a resume: "' +
+                   selectedFile.name + '" (' + (selectedFile.size / 1024).toFixed(1) + ' KB).\n\n' +
+                   'Please request the file directly from: ' + email
+        };
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, resumeParams);
       }
+
+      document.getElementById('appFormWrap').style.display = 'none';
+      document.getElementById('appSuccess').style.display  = 'block';
+
     } catch (err) {
       btn.textContent = 'Submit Application →';
       btn.disabled    = false;
