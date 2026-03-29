@@ -745,6 +745,252 @@
     font-family: 'Space Mono', monospace;
   }
 
+  /* CAREERS */
+  #careers { background: var(--bg); }
+  .careers-intro {
+    max-width: 600px;
+    margin-bottom: 5rem;
+  }
+  .careers-intro p {
+    font-size: 1rem; line-height: 1.9;
+    color: var(--muted); margin-top: 1.2rem;
+  }
+
+  .positions-grid {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid var(--border);
+    margin-bottom: 4rem;
+  }
+
+  .position-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+    position: relative;
+  }
+  .position-row:last-child { border-bottom: none; }
+  .position-row::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--gold);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+  }
+  .position-row:hover { background: var(--bg2); }
+  .position-row:hover::before { transform: scaleY(1); }
+
+  .position-info { }
+  .position-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .position-meta {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .position-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .position-tag::before {
+    content: ''; display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .position-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    white-space: nowrap;
+  }
+  .position-dept {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .btn-apply {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.65rem 1.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .btn-apply:hover {
+    background: var(--gold);
+    color: var(--bg);
+    transform: translateY(-2px);
+  }
+
+  .careers-note {
+    border: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    background: var(--gold-dim);
+    display: flex; align-items: flex-start; gap: 1.5rem;
+  }
+  .careers-note-icon {
+    font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem;
+  }
+  .careers-note-text h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+  .careers-note-text p {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+  }
+  .careers-note-text a {
+    color: var(--gold); text-decoration: none;
+  }
+
+  /* APPLICATION MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(8,10,15,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+  .modal-overlay.active { display: flex; }
+
+  .modal-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  .modal-header {
+    padding: 2.5rem 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+    position: sticky; top: 0;
+    background: var(--bg2);
+    z-index: 2;
+  }
+  .modal-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300;
+    line-height: 1.2;
+  }
+  .modal-title em { color: var(--gold); font-style: italic; }
+  .modal-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: none;
+    color: var(--muted); font-size: 1.3rem;
+    cursor: none; transition: color 0.2s;
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--white); }
+
+  .modal-body { padding: 2rem 2.5rem 2.5rem; }
+
+  .app-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-left: 2px solid var(--gold);
+    padding-left: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .file-upload-field {
+    border: 1px dashed var(--border);
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+    position: relative;
+  }
+  .file-upload-field:hover {
+    border-color: var(--gold);
+    background: var(--gold-dim);
+  }
+  .file-upload-field input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
+  }
+  .file-upload-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .file-upload-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .file-upload-text span { color: var(--gold); }
+  .file-upload-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  .modal-success {
+    text-align: center;
+    padding: 2rem;
+    display: none;
+  }
+  .modal-success-icon {
+    font-size: 3rem; margin-bottom: 1rem;
+  }
+  .modal-success h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300;
+    margin-bottom: 0.8rem;
+  }
+  .modal-success h3 em { color: var(--gold); font-style: italic; }
+  .modal-success p {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+  }
+
   /* MOBILE NAV */
   .mobile-menu {
     display: none;
@@ -799,6 +1045,9 @@
     .form-row { grid-template-columns: 1fr; }
     .footer-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
     .divider { margin: 0 1.5rem; }
+    .position-row { grid-template-columns: 1fr; gap: 1rem; }
+    .position-row .position-dept { display: none; }
+    .modal-header, .modal-body { padding-left: 1.5rem; padding-right: 1.5rem; }
   }
 </style>
 </head>
@@ -821,6 +1070,7 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#why">Why Us</a></li>
     <li><a href="#team">Team</a></li>
+    <li><a href="#careers">Careers</a></li>
     <li><a href="#contact" class="nav-cta">Contact</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
@@ -836,6 +1086,7 @@
   <a href="#services" onclick="closeMobile()">Services</a>
   <a href="#why" onclick="closeMobile()">Why Us</a>
   <a href="#team" onclick="closeMobile()">Team</a>
+  <a href="#careers" onclick="closeMobile()">Careers</a>
   <a href="#contact" onclick="closeMobile()">Contact</a>
 </div>
 
@@ -1094,7 +1345,7 @@
           <div class="contact-detail-icon">✉</div>
           <div class="contact-detail-text">
             <strong>Email</strong>
-            office@orchestralai.org
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e08f8686898385a08f92838885939492818c8189ce8f9287">[email&#160;protected]</a>
           </div>
         </div>
         <div class="contact-detail">
@@ -1159,6 +1410,157 @@
   </div>
 </section>
 
+<div class="divider"></div>
+
+<!-- CAREERS -->
+<section id="careers">
+  <div class="section-inner">
+    <div class="careers-intro reveal">
+      <p class="section-tag">Join the Team</p>
+      <h2 class="section-title">Build the Future of <em>Agentic AI</em></h2>
+      <p>We're a small, ambitious team working at the frontier of AI. If you're excited by autonomous agents, multi-agent systems, and real-world AI deployment — you'll fit right in.</p>
+    </div>
+
+    <div class="positions-grid">
+
+      <div class="position-row reveal">
+        <div class="position-info">
+          <h3 class="position-title">Senior AI / LLM Engineer</h3>
+          <div class="position-meta">
+            <span class="position-tag">Bengaluru, India</span>
+            <span class="position-tag">Hybrid</span>
+          </div>
+        </div>
+        <span class="position-dept">Engineering</span>
+        <span class="position-type">Full-Time</span>
+        <button class="btn-apply" onclick="openModal('Senior AI / LLM Engineer', 'Engineering')">Apply →</button>
+      </div>
+
+      <div class="position-row reveal">
+        <div class="position-info">
+          <h3 class="position-title">Multi-Agent Systems Architect</h3>
+          <div class="position-meta">
+            <span class="position-tag">Bengaluru, India</span>
+            <span class="position-tag">On-site / Remote</span>
+          </div>
+        </div>
+        <span class="position-dept">Architecture</span>
+        <span class="position-type">Full-Time</span>
+        <button class="btn-apply" onclick="openModal('Multi-Agent Systems Architect', 'Architecture')">Apply →</button>
+      </div>
+
+      <div class="position-row reveal">
+        <div class="position-info">
+          <h3 class="position-title">Full Stack Developer (AI Products)</h3>
+          <div class="position-meta">
+            <span class="position-tag">Bengaluru, India</span>
+            <span class="position-tag">Hybrid</span>
+          </div>
+        </div>
+        <span class="position-dept">Engineering</span>
+        <span class="position-type">Full-Time</span>
+        <button class="btn-apply" onclick="openModal('Full Stack Developer (AI Products)', 'Engineering')">Apply →</button>
+      </div>
+
+      <div class="position-row reveal">
+        <div class="position-info">
+          <h3 class="position-title">AI Solutions Consultant</h3>
+          <div class="position-meta">
+            <span class="position-tag">Bengaluru, India</span>
+            <span class="position-tag">Hybrid</span>
+          </div>
+        </div>
+        <span class="position-dept">Consulting</span>
+        <span class="position-type">Full-Time</span>
+        <button class="btn-apply" onclick="openModal('AI Solutions Consultant', 'Consulting')">Apply →</button>
+      </div>
+
+      <div class="position-row reveal">
+        <div class="position-info">
+          <h3 class="position-title">Business Development Manager</h3>
+          <div class="position-meta">
+            <span class="position-tag">Bengaluru, India</span>
+            <span class="position-tag">Hybrid</span>
+          </div>
+        </div>
+        <span class="position-dept">Growth</span>
+        <span class="position-type">Full-Time</span>
+        <button class="btn-apply" onclick="openModal('Business Development Manager', 'Growth')">Apply →</button>
+      </div>
+
+    </div>
+
+    <div class="careers-note reveal">
+      <div class="careers-note-icon">✦</div>
+      <div class="careers-note-text">
+        <h4>Don't see your role?</h4>
+        <p>We're always open to exceptional talent. Send your profile and what excites you about agentic AI to <a href="mailto:office@orchestralai.org">office@orchestralai.org</a> — we'd love to hear from you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION MODAL -->
+<div class="modal-overlay" id="applyModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <p class="modal-eyebrow">Open Application</p>
+      <h2 class="modal-title">Apply for <em id="modalRoleTitle">this Role</em></h2>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="appFormWrap">
+        <p class="form-note">All fields are required. Your application will be sent directly to our team at office@orchestralai.org.</p>
+        <div class="app-form" id="appForm">
+          <input type="hidden" id="appRole" value="" />
+          <div class="form-row">
+            <div class="form-field">
+              <label>First Name</label>
+              <input type="text" id="appFirstName" placeholder="Arjun" required />
+            </div>
+            <div class="form-field">
+              <label>Last Name</label>
+              <input type="text" id="appLastName" placeholder="Sharma" required />
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Email Address</label>
+            <input type="email" id="appEmail" placeholder="you@email.com" required />
+          </div>
+          <div class="form-field">
+            <label>Phone Number</label>
+            <input type="tel" id="appPhone" placeholder="+91 98765 43210" />
+          </div>
+          <div class="form-field">
+            <label>LinkedIn Profile</label>
+            <input type="url" id="appLinkedIn" placeholder="https://linkedin.com/in/yourprofile" />
+          </div>
+          <div class="form-field">
+            <label>Cover Letter / Why Orchestral AI?</label>
+            <textarea id="appCover" placeholder="Tell us why you're excited about this role and what you'd bring to the team..." required></textarea>
+          </div>
+          <div class="form-field">
+            <label>Resume / CV</label>
+            <div class="file-upload-field" id="fileDropZone">
+              <input type="file" id="appResume" accept=".pdf,.doc,.docx" onchange="handleFileSelect(this)" />
+              <div class="file-upload-icon">📎</div>
+              <div class="file-upload-text">Drop your resume here or <span>browse</span></div>
+              <div class="file-upload-text" style="margin-top:0.3rem; opacity:0.6;">PDF, DOC, DOCX · Max 5MB</div>
+              <div class="file-upload-name" id="fileNameDisplay"></div>
+            </div>
+          </div>
+          <button type="button" class="form-submit" id="appSubmitBtn" onclick="submitApplication()">Submit Application →</button>
+        </div>
+      </div>
+      <div class="modal-success" id="appSuccess">
+        <div class="modal-success-icon">✦</div>
+        <h3>Application <em>Received</em></h3>
+        <p>Thank you! Your application has been sent to our team. We review all applications carefully and will be in touch within 5–7 business days.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -1170,13 +1572,14 @@
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#team">Team</a></li>
+      <li><a href="#careers">Careers</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <p class="footer-copy">© 2025 OrchedtralAI.org — All rights reserved</p>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring   = document.getElementById('cursorRing');
@@ -1242,12 +1645,133 @@
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      if (window.scrollY + 120 >= s.offsetTop) current = s.id;
     });
     navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
     });
   });
+
+  // ── CAREERS MODAL ──────────────────────────────────────────────
+  let selectedFile = null;
+
+  function openModal(role, dept) {
+    document.getElementById('modalRoleTitle').textContent = role;
+    document.getElementById('appRole').value = role;
+    // Reset form
+    document.getElementById('appForm').querySelectorAll('input:not([type=hidden]), textarea').forEach(f => f.value = '');
+    selectedFile = null;
+    document.getElementById('fileNameDisplay').style.display = 'none';
+    document.getElementById('fileNameDisplay').textContent = '';
+    document.getElementById('appFormWrap').style.display = 'block';
+    document.getElementById('appSuccess').style.display = 'none';
+    const btn = document.getElementById('appSubmitBtn');
+    btn.textContent = 'Submit Application →';
+    btn.disabled = false;
+    document.getElementById('applyModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    // Rebind cursor events for modal buttons
+    rebindCursorEvents();
+  }
+
+  function closeModal() {
+    document.getElementById('applyModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Close on overlay click
+  document.getElementById('applyModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  function handleFileSelect(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size must be under 5MB.');
+      input.value = '';
+      return;
+    }
+    selectedFile = file;
+    const display = document.getElementById('fileNameDisplay');
+    display.textContent = '✓ ' + file.name;
+    display.style.display = 'block';
+  }
+
+  async function submitApplication() {
+    const role      = document.getElementById('appRole').value;
+    const firstName = document.getElementById('appFirstName').value.trim();
+    const lastName  = document.getElementById('appLastName').value.trim();
+    const email     = document.getElementById('appEmail').value.trim();
+    const phone     = document.getElementById('appPhone').value.trim();
+    const linkedin  = document.getElementById('appLinkedIn').value.trim();
+    const cover     = document.getElementById('appCover').value.trim();
+
+    if (!firstName || !lastName || !email || !cover) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const btn = document.getElementById('appSubmitBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    // Build FormData for Formspree (supports file attachments)
+    const formData = new FormData();
+    formData.append('_subject',   'Job Application: ' + role);
+    formData.append('_replyto',   email);
+    formData.append('Role',       role);
+    formData.append('Name',       firstName + ' ' + lastName);
+    formData.append('Email',      email);
+    formData.append('Phone',      phone || 'Not provided');
+    formData.append('LinkedIn',   linkedin || 'Not provided');
+    formData.append('Cover Letter', cover);
+    if (selectedFile) {
+      formData.append('resume', selectedFile, selectedFile.name);
+    }
+
+    try {
+      // Replace YOUR_FORM_ID below with your Formspree form endpoint
+      // Sign up free at https://formspree.io → create form → copy the form ID
+      const res = await fetch('https://formspree.io/f/mnjopdlz', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        document.getElementById('appFormWrap').style.display = 'none';
+        document.getElementById('appSuccess').style.display = 'block';
+      } else {
+        const data = await res.json();
+        throw new Error(data.error || 'Submission failed');
+      }
+    } catch (err) {
+      btn.textContent = 'Submit Application →';
+      btn.disabled = false;
+      alert('There was an error submitting your application. Please try again or email us directly at office@orchestralai.org');
+      console.error(err);
+    }
+  }
+
+  function rebindCursorEvents() {
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '56px'; ring.style.height = '56px';
+        cursor.style.opacity = '0';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '36px'; ring.style.height = '36px';
+        cursor.style.opacity = '1';
+      });
+    });
+  }
 </script>
 </body>
 </html>
