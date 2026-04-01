@@ -1814,6 +1814,24 @@
       const data = await res.json();
 
       if (data.success === 'true' || data.success === true) {
+        try {
+          await fetch('https://script.google.com/macros/s/AKfycbwhycTRdIBhvky96z4wTK7C6zl84C44p5EYPgcCp_BksWyj9vbl1AHx9siTkIsaWmzc/exec', {
+            method: 'POST',
+            mode:   'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              timestamp : new Date().toLocaleString(),
+              role      : role,
+              name      : firstName + ' ' + lastName,
+              email     : email,
+              phone     : phone    || 'Not provided',
+              linkedin  : linkedin || 'Not provided',
+              cover     : cover
+            })
+          });
+        } catch (sheetErr) {
+          console.warn('Sheets logging failed:', sheetErr);
+        }
         document.getElementById('appFormWrap').style.display = 'none';
         document.getElementById('appSuccess').style.display  = 'block';
       } else {
